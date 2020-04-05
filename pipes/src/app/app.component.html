@@ -1,38 +1,83 @@
 <div class="container shadow p-3 mb-5 bg-white rounded">
   <h1>Pipes</h1>
   <hr />
-  <div class="row my-3">
-    <div class="col-md-6">
-      <label>Name:</label>
+  <div class="row">
+    <div class="form-group col">
+      <label><b>Name:</b></label>
       <input
         type="text"
         class="form-control"
         (input)="onNameChange($event.target.value)"
       />
     </div>
-    <div class="col-md-6">
-      <label>Name:</label>
-      <p>{{ name | titlecase }}</p>
+    <div class="col">
+      <label><b>Name:</b></label>
+      <p>{{ vm.name | titlecase }}</p>
     </div>
   </div>
-  <div class="row my-3">
-    <div class="col-md-6">
-      <label>Payment date:</label>
-      <input type="text" class="form-control" />
+  <div class="row">
+    <div class="form-group col">
+      <label><b>Height:</b></label>
+      <input
+        type="text"
+        class="form-control"
+        (input)="onHeightChange($event.target.value)"
+      />
     </div>
-    <div class="col-md-6">
-      <label>Payment date:</label>
-      <p>Given data</p>
+    <div class="col">
+      <label><b>Height:</b></label>
+      <p>{{ vm.height | number: "1.1-1" }}</p>
     </div>
   </div>
-  <div class="row my-3">
-    <div class="col-md-6">
-      <label>Amount:</label>
-      <input type="text" class="form-control" />
+  <div class="row">
+    <div class="form-group col">
+      <label><b>Payment date:</b></label>
+      <input
+        type="date"
+        class="form-control"
+        (input)="onDateChange($event.target.value)"
+      />
     </div>
-    <div class="col-md-6">
-      <label>Amount:</label>
-      <p>Given data</p>
+    <div class="col">
+      <label><b>Payment date:</b></label>
+      <p>{{ vm.date | date: "d. MMMM, y" }}</p>
     </div>
+  </div>
+  <div class="row">
+    <div class="form-group col">
+      <label><b>Amount:</b></label>
+      <input
+        type="text"
+        class="form-control"
+        (input)="onAmountChange($event.target.value)"
+      />
+    </div>
+    <div class="col">
+      <label><b>Amount:</b></label>
+      <p>{{ vm.amount | currency: "EUR" }}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col">
+      <label><b>Miles:</b></label>
+      <input
+        type="text"
+        class="form-control"
+        (input)="onMilesChange($event.target.value)"
+      />
+    </div>
+    <div class="col" *ngIf="(vm.miles | convert: 'km') > 10">
+      <label><b>Kilometers:</b></label>
+      <p>{{ vm.miles | convert: "km" | number: "1.1-2" }}</p>
+    </div>
+    <div class="col" *ngIf="(vm.miles | convert: 'km') <= 10">
+      <label><b>Meters:</b></label>
+      <p>{{ vm.miles | convert: "m" | number: "1.1-2" }}</p>
+    </div>
+  </div>
+  <div class="row">
+    <pre>
+      {{ vm | json }}
+    </pre>
   </div>
 </div>
