@@ -1,0 +1,44 @@
+<div class="container shadow p-3 mb-5 bg-white rounded">
+  <h1>Pipes</h1>
+  <hr />
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Name:</label>
+        <input
+          type="text"
+          class="form-control"
+          (input)="onNameChange($event.target.value)"
+        />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label>Name:</label>
+      <p>Given name</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Payment date:</label>
+        <input type="text" class="form-control" />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label>Payment date:</label>
+      <p>Given data</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Amount:</label>
+        <input type="text" class="form-control" />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label>Amount:</label>
+    <p>Given data</p>
+    </div>
+  </div>
+</div>
