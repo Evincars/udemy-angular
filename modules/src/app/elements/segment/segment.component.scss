@@ -1,0 +1,15 @@
+.segment {
+  width: 30%;
+}
+
+.segment-content {
+  background: #ececec;
+  padding: 5px;
+  margin-top: 15px;
+}
+
+// if selector: <ng-content select="header">
+// is empty, apply display: none;
+mat-card-header:empty {
+  display: none;
+}

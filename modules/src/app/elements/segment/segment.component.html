@@ -1,0 +1,16 @@
+<mat-card class="segment">
+  <mat-card-header>
+    <ng-content select="header"></ng-content>
+  </mat-card-header>
+  <mat-card-content class="segment-content">
+    <ng-content select="content"></ng-content>
+    <!-- 
+    Alternatives:
+    <ng-content select=".someClass"></ng-content>
+    <ng-content select="[someAttribute]"></ng-content> 
+    -->
+  </mat-card-content>
+  <mat-card-actions>
+    <ng-content></ng-content>
+  </mat-card-actions>
+</mat-card>

@@ -1,1 +1,24 @@
-<app-placeholder></app-placeholder>
+<!-- 
+Two options of binding string property into component
+<app-divider [title]="'Placeholder component'"></app-divider>
+<app-divider title="Placeholder component"></app-divider> 
+-->
+
+<app-divider>
+  Placeholder component
+</app-divider>
+<app-placeholder [lines]="5"></app-placeholder>
+
+<app-divider>
+  Segment Component
+</app-divider>
+<app-segment>
+  <header>
+    Header
+  </header>
+  <content>
+    Content
+  </content>
+  <button mat-button>Like</button>
+  <button mat-button>share</button>
+</app-segment>

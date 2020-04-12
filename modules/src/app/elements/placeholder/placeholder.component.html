@@ -1,1 +1,6 @@
-<h2>Placeholders</h2>
+<mat-list>
+  <div *ngIf="header" class="custom-placeholder-header"></div>
+  <mat-list-item *appTimes="lines">
+    <div mat-line class="custom-placeholder-line"></div>
+  </mat-list-item>
+</mat-list>
