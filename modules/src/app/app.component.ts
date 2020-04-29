@@ -9,7 +9,7 @@ export class AppComponent {
   public navLinks = [
     { path: '/elements', label: 'Elements' },
     { path: '/collections', label: 'Collections' },
-    { path: '/mods', label: 'Modules' },
     { path: '/views', label: 'Views' },
+    { path: '/mods', label: 'Modules' },
   ];
 }

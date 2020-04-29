@@ -1,0 +1,13 @@
+<mat-grid-list [cols]="data.length" rowHeight="100px">
+  <mat-grid-tile
+    *ngFor="let stat of data"
+    colspan="1"
+    rowspan="1"
+    style="background: rgb(230, 230, 230);"
+  >
+    <div style="text-align: center;">
+      <h2>{{ stat.value }}</h2>
+      <p>{{ stat.label }}</p>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
