@@ -1,1 +1,40 @@
-<p>collections-home works!</p>
+<app-divider>
+  Table component
+</app-divider>
+<app-table [headers]="headers" [data]="data"></app-table>
+<app-divider>
+  Tabs
+</app-divider>
+<app-tabs>
+  <!-- 
+  Whenever user is on particular URL, routerLinkActive is activated and applies given class
+  Using ./ means current route, logic is same as file system like: ../, ./sth
+
+  [routerLink]="['./', 'foo']" will create the URL path ./foo. Useful with using variables.
+
+  [routerLinkActiveOptions]="{ exact: true }" means that URL must match exactly what is in URL
+  of routerLink, otherwise it will be applied everytime when URL will contain ./ path
+  -->
+  <a
+    [routerLink]="['./']"
+    routerLinkActive="button-activated"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="tab-link"
+  >
+    Biography
+  </a>
+  <a
+    routerLink="./companies"
+    routerLinkActive="button-activated"
+    class="tab-link"
+  >
+    Companies
+  </a>
+  <a
+    routerLink="./partners"
+    routerLinkActive="button-activated"
+    class="tab-link"
+  >
+    Partners
+  </a>
+</app-tabs>
