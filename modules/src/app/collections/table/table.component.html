@@ -1,4 +1,14 @@
 <table mat-table [dataSource]="data" class="mat-elevation-z8">
+  <!-- 
+  ng-container disappear during render time, useful when we cannot loop through
+  some wrapping element directly, because it has directly specified childs, and we
+  want to loop them, something like:
+  <div class="sth">
+    <div class="header"></div>
+    <div class="content"></div>
+    <div class="footer"></div>
+  </div> 
+  -->
   <ng-container *ngFor="let col of vmHeaders" [matColumnDef]="col.key">
     <th mat-header-cell *matHeaderCellDef>{{ col.label }}</th>
     <td mat-cell *matCellDef="let element">{{ element[col.key] }}</td>
