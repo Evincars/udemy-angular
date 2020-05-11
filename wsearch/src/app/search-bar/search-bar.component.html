@@ -1,0 +1,14 @@
+<!-- 
+If some input is selected, and user hit enter key, we're expecting that
+some event will be fired, to do so, we need to wrap input(s) into <form>
+directive - default in all browser
+
+Submit will clear the form - it's expected by default that we'll fire some
+event to a backend -- everything is default behavior
+-->
+<form (submit)="onFormSubmit($event)" class="my-form">
+  <mat-form-field class="my-full-width">
+    <mat-label>Search</mat-label>
+    <input (input)="term = $event.target.value" matInput />
+  </mat-form-field>
+</form>
