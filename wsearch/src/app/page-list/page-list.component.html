@@ -1,1 +1,32 @@
-<p>page-list works!</p>
+<mat-table [dataSource]="pages" class="mat-elevation-z8">
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <a
+        [href]="'https://en.wikipedia.org?curid=' + element.pageid"
+        target="_blank"
+      >
+        {{ element.title }}
+      </a>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="wordcount">
+    <mat-header-cell *matHeaderCellDef> Wordcount </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element.wordcount }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="snippet">
+    <mat-header-cell *matHeaderCellDef> Snippet </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <!-- 
+      Angular automatically check innerHTML property binding, if there is no
+      malicious code for XSS attack 
+      -->
+      <p [innerHTML]="element.snippet"></p>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
