@@ -15,9 +15,11 @@ export class AppComponent {
 
   onTerm(term: string) {
     console.log('Parent component which handle info from child: ', term);
-    const results = this.wikipedia.search(term).subscribe((response: any) => {
-      this.pages = response.query.search;
+
+    const results = this.wikipedia.search(term).subscribe((response) => {
+      this.pages = response;
     });
+
     console.log(`results: ${results}`);
   }
 }
