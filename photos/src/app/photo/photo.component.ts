@@ -8,16 +8,12 @@ import { FetchPhotoService } from '../fetch-photo.service';
 })
 export class PhotoComponent implements OnInit {
   DEFAULT_PHOTO_URL = '../../assets/default_photo.png';
-  photoURL = '';
+  photoURL = this.DEFAULT_PHOTO_URL;
   constructor(private remotePhoto: FetchPhotoService) {}
 
   ngOnInit() {}
 
   fetchPhoto() {
-    const fetchedURL = this.remotePhoto.fetch();
-
-    if (!fetchedURL){
-      // this.photoURL = this.DEFAULT_PHOTO_URL;
-    }
+    this.remotePhoto.fetch().subscribe((v) => (this.photoURL = v));
   }
 }
