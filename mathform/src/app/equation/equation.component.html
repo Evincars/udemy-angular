@@ -1,0 +1,8 @@
+<form [formGroup]="mathForm">
+  {{ A }} + {{ B }} =
+  <input formControlName="answer" />
+</form>
+<br>
+<div>Valid: {{ mathForm.valid }}</div>
+<div>Values: {{ mathForm.value | json}}</div>
+<div>Errors: {{ mathForm.errors | json}}</div>
