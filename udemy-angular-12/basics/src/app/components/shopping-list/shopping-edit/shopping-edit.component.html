@@ -8,7 +8,12 @@
         </div>
         <div class="col-sm-2 form-group">
           <label for="amount">Amount</label>
-          <input type="text" id="amount" class="form-control" #amountInput>
+          <input type="text" id="amount" value="1" class="form-control" #amountInput>
+        </div>
+      </div>
+      <div *ngIf="errorMessage" class="row">
+        <div class="alert alert-danger">
+          {{errorMessage}}
         </div>
       </div>
       <div class="row">
