@@ -1,5 +1,5 @@
-import { Input, Output, EventEmitter } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { RecipeService } from 'src/app/shared/recipe.service';
 import { Recipe } from '../../recipe.model';
 
 @Component({
@@ -21,15 +21,20 @@ export class RecipeItemComponent implements OnInit {
    * Optional chaining will null check the property before it before continuing down the property chain, essentially guarding that value against being null or undefined.
    */
   @Input('recipeItem') recipe!: Recipe;
+
+  /*
+  Moved to service, so we don't need to take a long way through @Output and Event Emitters
   @Output('onSelectedItem') selectedItem = new EventEmitter<void>();
-  
-  constructor() { }
+  */
+
+  constructor(private recipeService: RecipeService) { }
 
   ngOnInit(): void {
   }
 
   onItemSelected() {
-    this.selectedItem.emit();
+    // this.selectedItem.emit();
+    this.recipeService.recipeSelected.emit(this.recipe);
   }
 
 }
