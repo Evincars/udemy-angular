@@ -6,10 +6,14 @@
     <app-recipe-list></app-recipe-list>
   </div>
   <div class="col-md-7">
+
+    <!-- Before routing was used
+
     <app-recipe-detail
       *ngIf="recipe; else showTestForNonSelectedItem"
       [selectedRecipe]="recipe"
     ></app-recipe-detail>
-    <ng-template #showTestForNonSelectedItem>Choose some recipe.</ng-template>
+    <ng-template #showTestForNonSelectedItem>Choose some recipe.</ng-template> -->
+    <router-outlet></router-outlet>
   </div>
 </div>

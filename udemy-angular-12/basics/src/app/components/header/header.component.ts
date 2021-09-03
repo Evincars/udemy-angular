@@ -1,4 +1,3 @@
-import { EventEmitter, Output } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,14 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  @Output() featureSelected = new EventEmitter<string>();
+  /*
+  Before routing was used
+
+  @Output() featureSelected = new EventEmitter<string>();*/
 
   constructor() { }
 
   ngOnInit(): void { }
 
+  /*
+  Before routing was used
+
   onSelect(feature: string) {
     this.featureSelected.emit(feature);
-  }
+  }*/
 
 }

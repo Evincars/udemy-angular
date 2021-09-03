@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeService } from 'src/app/shared/recipe.service';
 import { Recipe } from '../../recipe.model';
 
 @Component({
   selector: 'app-recipe-item',
   templateUrl: './recipe-item.component.html',
-  styleUrls: ['./recipe-item.component.css']
+  styleUrls: ['./recipe-item.component.css'],
 })
 export class RecipeItemComponent implements OnInit {
-
   /**
    * So writing null checks like t ? t('my_translation_key') : '' in every place where I want translated text is really frustrating.
    * Instead, I can safely write t!('my_translation_key') without null or undefined checks.
@@ -27,14 +27,23 @@ export class RecipeItemComponent implements OnInit {
   @Output('onSelectedItem') selectedItem = new EventEmitter<void>();
   */
 
-  constructor(private recipeService: RecipeService) { }
+  constructor(
+    private recipeService: RecipeService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onItemSelected() {
     // this.selectedItem.emit();
-    this.recipeService.recipeSelected.emit(this.recipe);
-  }
 
+    // not needed, because of routing
+    // this.recipeService.recipeSelected.emit(this.recipe);
+
+    // alternatively we can a method for (click) event
+    this.router.navigate(['detail', this.recipe.id], {
+      relativeTo: this.route,
+    });
+  }
 }

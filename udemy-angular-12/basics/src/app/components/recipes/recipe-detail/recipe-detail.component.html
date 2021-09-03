@@ -22,8 +22,8 @@
       </button>
       <ul class="dropdown-menu">
         <li><a (click)="onAddToShoppingList()" class="cursor-set">To Shopping List</a></li>
-        <li><a class="cursor-set">Edit Recipe</a></li>
-        <li><a class="cursor-set">Delete Recipe</a></li>
+        <li><a [routerLink]="['/recipes/edit', selectedRecipe?.id]" class="cursor-set">Edit Recipe</a></li>
+        <li><a (click)="onDeleteRecipe()"class="cursor-set">Delete Recipe</a></li>
       </ul>
     </div>
   </div>

@@ -19,8 +19,10 @@ export class ShoppingListService {
     return this.ingredients.slice(); // copy of array, otherwise it'd return direct reference
   }
 
-  public addIngredient(ingredients: Ingredient[]) {
-    this.ingredients.push(...ingredients);
+  public addIngredient(ingredients: Ingredient[] | undefined) {
+    if (ingredients) {
+      this.ingredients.push(...ingredients);
+    }
 
     // TODO
     const groupedShoppingList = _.groupBy(
