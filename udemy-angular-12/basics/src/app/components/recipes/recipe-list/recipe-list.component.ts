@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { RecipeService } from 'src/app/shared/recipe.service';
 import { Recipe } from '../recipe.model';
 
@@ -7,13 +8,14 @@ import { Recipe } from '../recipe.model';
   templateUrl: './recipe-list.component.html',
   styleUrls: ['./recipe-list.component.css']
 })
-export class RecipeListComponent implements OnInit {
+export class RecipeListComponent implements OnInit, OnDestroy {
   /*
   Before Services were used
   @Output('onRecipeWasSelected') selectedRecipeItem = new EventEmitter<Recipe>();
   */
 
   recipes: Recipe[] = [];
+  recipesChanged?: Subscription;
 
   /*
   Before Services were used
@@ -26,14 +28,17 @@ export class RecipeListComponent implements OnInit {
   ];*/
 
   constructor(private recipeService: RecipeService) { }
-
+  
   ngOnInit(): void {
     this.recipes = this.recipeService.getRecipes();
-    this.recipeService.recipesChanged.subscribe((recipes: Recipe[]) => {
+    this.recipesChanged = this.recipeService.recipesChanged.subscribe((recipes: Recipe[]) => {
       this.recipes = recipes;
     });
   }
-
+  
+  ngOnDestroy(): void {
+    this.recipesChanged?.unsubscribe();
+  }
   /*
   Before Services were used
 

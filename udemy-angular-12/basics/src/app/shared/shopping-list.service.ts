@@ -1,12 +1,16 @@
-import { EventEmitter, Injectable } from '@angular/core';
-import { Ingredient } from './ingredient.model';
+import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
+import { Subject } from 'rxjs';
+import { Ingredient } from './ingredient.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShoppingListService {
-  ingredientsChanged = new EventEmitter<Ingredient[]>();
+
+  // previously we were using EventEmitter, but using Subject
+  // is strongly recommended
+  ingredientsChanged = new Subject<Ingredient[]>();
 
   private ingredients: Ingredient[] = [
     new Ingredient('Apple', 5),
@@ -36,6 +40,6 @@ export class ShoppingListService {
 
     // because in getIngredients() we're returning an copy of array, components cannot recognize
     // if values in original reference array were changed so we have to emit an event
-    this.ingredientsChanged.emit(this.ingredients.slice());
+    this.ingredientsChanged.next(this.ingredients.slice());
   }
 }

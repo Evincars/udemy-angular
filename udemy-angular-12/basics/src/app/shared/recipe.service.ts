@@ -1,4 +1,5 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Recipe } from '../components/recipes/recipe.model';
 import { Ingredient } from './ingredient.model';
 
@@ -37,8 +38,10 @@ export class RecipeService {
     ),
   ];
 
-  recipeSelected = new EventEmitter<Recipe>();
-  recipesChanged = new EventEmitter<Recipe[]>();
+  // previously we were using EventEmitter, but using Subject
+  // is strongly recommended
+  recipeSelected = new Subject<Recipe>();
+  recipesChanged = new Subject<Recipe[]>();
 
   constructor() {}
 
@@ -58,7 +61,7 @@ export class RecipeService {
       this.recipes = this.recipes.filter((o: Recipe) => {
         return o.id !== id;
       });
-      this.recipesChanged.emit(this.recipes.slice());
+      this.recipesChanged.next(this.recipes.slice());
     }
   }
 
