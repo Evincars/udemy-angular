@@ -3,10 +3,19 @@
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-xs-12">
-          <button [disabled]="!recipeForm.valid" type="submit" class="btn btn-success">Save</button>
-          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+          <button
+            [disabled]="!recipeForm.valid"
+            type="submit"
+            class="btn btn-success"
+          >
+            {{ editMode ? "Save" : "Add" }}
+          </button>
+          <button type="button" class="btn btn-danger" (click)="onCancel()">
+            Cancel
+          </button>
         </div>
       </div>
+      <hr />
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
@@ -29,15 +38,21 @@
               id="imagePath"
               class="form-control"
               formControlName="imagePath"
+              #imagePath
             />
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <img src="" class="image-responsive" />
+          <img
+            [src]="imagePath.value"
+            class="image-responsive"
+            style="max-width: 300px"
+          />
         </div>
       </div>
+      <br />
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
@@ -69,7 +84,13 @@
               />
             </div>
             <div class="col-xs-2">
-              <button type="button" class="btn btn-danger">X</button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="onDeleteIngredient(i)"
+              >
+                X
+              </button>
             </div>
           </div>
           <hr />

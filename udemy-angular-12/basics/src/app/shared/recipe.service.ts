@@ -77,6 +77,7 @@ export class RecipeService {
     if (maxValue !== undefined) {
       recipe.id = maxValue + 1;
       this.recipes.push(recipe);
+      this.emitChange();
     }
   }
 
