@@ -7,10 +7,10 @@ import { Ingredient } from './ingredient.model';
   providedIn: 'root',
 })
 export class ShoppingListService {
-
   // previously we were using EventEmitter, but using Subject
   // is strongly recommended
   ingredientsChanged = new Subject<Ingredient[]>();
+  startEditting = new Subject<number>();
 
   private ingredients: Ingredient[] = [
     new Ingredient('Apple', 5),
@@ -21,6 +21,24 @@ export class ShoppingListService {
 
   public getIngredients() {
     return this.ingredients.slice(); // copy of array, otherwise it'd return direct reference
+  }
+
+  public getIngredient(index: number) {
+    return this.ingredients[index];
+  }
+
+  public editIngredient(index: number, ingredient: Ingredient) {
+    if (this.ingredients && this.ingredients[index]) {
+      this.ingredients[index] = ingredient;
+      this.ingredientsChanged.next(this.ingredients.slice());
+    }
+  }
+
+  public deleteIngredient(index: number) {
+    if (this.ingredients && this.ingredients[index]) {
+      this.ingredients.splice(index, 1);
+      this.ingredientsChanged.next(this.ingredients.slice());
+    }
   }
 
   public addIngredient(ingredients: Ingredient[] | undefined) {

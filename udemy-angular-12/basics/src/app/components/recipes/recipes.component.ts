@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { RecipeService } from 'src/app/shared/recipe.service';
 import { Recipe } from './recipe.model';
 
@@ -6,18 +7,26 @@ import { Recipe } from './recipe.model';
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.css'],
+
   // NOT NEEDED, in RecipeService, we're setting up ProvidedIn: 'root'
   // same as we'd push it to providers[] array in app.module
-  providers: [RecipeService],
+  
+  // providers: [RecipeService],
 })
-export class RecipesComponent implements OnInit {
+export class RecipesComponent implements OnInit, OnDestroy {
   recipe?: Recipe;
-  constructor(private recipeService: RecipeService) {}
+  recipeSub?: Subscription;
 
+  constructor(private recipeService: RecipeService) {}
+  
   ngOnInit(): void {
-    this.recipeService.recipeSelected.subscribe((selectedRecipe: Recipe) => {
+    this.recipeSub = this.recipeService.recipeSelected.subscribe((selectedRecipe: Recipe) => {
       this.recipe = selectedRecipe;
     });
+  }
+  
+  ngOnDestroy(): void {
+    this.recipeSub?.unsubscribe();
   }
 
   /*

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Recipe } from '../components/recipes/recipe.model';
 import { Ingredient } from './ingredient.model';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -61,13 +62,35 @@ export class RecipeService {
       this.recipes = this.recipes.filter((o: Recipe) => {
         return o.id !== id;
       });
-      this.recipesChanged.next(this.recipes.slice());
+      this.emitChange();
     }
+  }
+
+  public editRecipe(recipe: Recipe) {
+    const index = _.findIndex(this.recipes, { id: recipe.id });
+    this.recipes.splice(index, 1, recipe);
+    this.emitChange();
+  }
+
+  public addRecipe(recipe: Recipe) {
+    const maxValue = _.maxBy(this.recipes, 'id')?.id;
+    if (maxValue !== undefined) {
+      recipe.id = maxValue + 1;
+      this.recipes.push(recipe);
+    }
+  }
+
+  public removeIngredient(recipe: Recipe) {
+    this.editRecipe(recipe);
   }
 
   private findRecipe(id: number | undefined): Recipe | undefined {
     return this.recipes.find((o: Recipe) => {
-      return o.id === id;
+      return o.id == id;
     });
+  }
+
+  private emitChange() {
+    this.recipesChanged.next(this.recipes.slice());
   }
 }
