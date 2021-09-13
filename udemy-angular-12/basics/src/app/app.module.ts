@@ -15,7 +15,9 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { RoutingModule } from './routing.module';
 import { RecipeEditComponent } from './components/recipes/recipe-edit/recipe-edit.component';
 import { RecipeStartComponent } from './components/recipes/recipe-start/recipe-start.component';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
+import { AuthComponent } from './components/auth/auth.component';
+import { SpinnerComponent } from './shared/spinner/spinner.component'
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { HttpClientModule } from '@angular/common/http'
     NotFoundComponent,
     RecipeEditComponent,
     RecipeStartComponent,
+    AuthComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
