@@ -8,7 +8,9 @@ import * as _ from 'lodash';
   providedIn: 'root',
 })
 export class RecipeService {
-  private recipes: Recipe[] = [
+
+  // before using HTTP requests
+  /*private recipes: Recipe[] = [
     new Recipe(
       1,
       'Meat tali',
@@ -37,7 +39,9 @@ export class RecipeService {
       'https://i1.wp.com/www.dailycal.org/assets/uploads/2019/10/food_Allison-Fong_staff2.jpeg?ssl=1&w=900',
       [new Ingredient('yellow spice + Kari', 3)]
     ),
-  ];
+  ];*/
+
+  private recipes: Recipe[] = [];
 
   // previously we were using EventEmitter, but using Subject
   // is strongly recommended
@@ -45,6 +49,11 @@ export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
 
   constructor() {}
+
+  public setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
+  }
 
   public getRecipes() {
     // return this.recipes; // !! this will return direct reference to the service array !!
