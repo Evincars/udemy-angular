@@ -1,7 +1,4 @@
-import {
-  HttpClient,
-  HttpErrorResponse
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, throwError } from 'rxjs';
@@ -47,6 +44,33 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  autoSignIn() {
+    const storageData = localStorage.getItem('userData');
+
+    if (!storageData){
+      return;
+    }
+
+    const storageUser: {
+      email: string;
+      id: string;
+      _token: string;
+      _tokenExpirationDate: Date;
+    } = JSON.parse(storageData);
+
+    const userData = new User(
+      storageUser.email,
+      storageUser.id,
+      storageUser._token,
+      storageUser._tokenExpirationDate
+    );
+    if (userData.token) {
+      this.userSub.next(userData);
+      return;
+    }
+    this.userSub.next(null);
+  }
+
   signIn(email: string, password: string) {
     const { handleErr, handleAuth } = this.bindedHandlers();
     return this.http
@@ -71,6 +95,7 @@ export class AuthService {
 
   logout() {
     this.userSub.next(null);
+    localStorage.removeItem('userData');
     this.router.navigate(['/auth']);
   }
 
@@ -95,5 +120,6 @@ export class AuthService {
     );
     const user = new User(res.email, res.localId, res.idToken, expirationDate);
     this.userSub.next(user);
+    localStorage.setItem('userData', JSON.stringify(user));
   }
 }
