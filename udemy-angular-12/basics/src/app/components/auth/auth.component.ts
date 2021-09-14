@@ -38,13 +38,14 @@ export class AuthComponent implements OnInit {
       (res) => {
         this.isLoading = false;
         this.router.navigate(['/recipes']);
+        this.authForm.reset();
       },
       (errorMessage) => {
         this.isLoading = false;
         this.error = errorMessage;
+        this.authForm.reset();
       }
     );
-    this.authForm.reset();
   }
 
   private createAuthObservable() {

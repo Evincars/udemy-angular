@@ -3,7 +3,8 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject, throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
 
@@ -40,9 +41,11 @@ export class AuthService {
     USER_DISABLED: 'The user account has been disabled by an administrator.',
   };
 
-  userSub = new Subject<User>();
+  // BehaviorSubject gives to subscribers imediate access to previous value
+  // even when they didn't subscribe at the point when the value was emitted
+  userSub = new BehaviorSubject<User | null>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   signIn(email: string, password: string) {
     const { handleErr, handleAuth } = this.bindedHandlers();
@@ -64,6 +67,11 @@ export class AuthService {
         returnSecureToken: true,
       })
       .pipe(catchError(handleErr), tap(handleAuth));
+  }
+
+  logout() {
+    this.userSub.next(null);
+    this.router.navigate(['/auth']);
   }
 
   private bindedHandlers() {
