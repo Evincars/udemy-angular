@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService, AuthResponseData } from 'src/app/shared/auth.service';
 
@@ -15,7 +16,7 @@ export class AuthComponent implements OnInit {
   authForm!: FormGroup;
   error = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -31,16 +32,12 @@ export class AuthComponent implements OnInit {
     }
     this.error = '';
     this.isLoading = true;
-    const email = this.authForm.value.email;
-    const password = this.authForm.value.password;
-
-    const authObs: Observable<AuthResponseData> = this.isSignInMode
-      ? this.authService.signIn(email, password)
-      : this.authService.signUp(email, password);
+    const authObs: Observable<AuthResponseData> = this.createAuthObservable();
 
     authObs.subscribe(
       (res) => {
         this.isLoading = false;
+        this.router.navigate(['/recipes']);
       },
       (errorMessage) => {
         this.isLoading = false;
@@ -48,6 +45,16 @@ export class AuthComponent implements OnInit {
       }
     );
     this.authForm.reset();
+  }
+
+  private createAuthObservable() {
+    const email = this.authForm.value.email;
+    const password = this.authForm.value.password;
+
+    const authObs: Observable<AuthResponseData> = this.isSignInMode
+      ? this.authService.signIn(email, password)
+      : this.authService.signUp(email, password);
+    return authObs;
   }
 
   private initForm() {

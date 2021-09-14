@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Recipe } from '../components/recipes/recipe.model';
 import { RecipeService } from './recipe.service';
-import { map, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class DataStorageService {
     this.http
       .put(
         'https://udemy-angular-12-1182a-default-rtdb.firebaseio.com/recipes.json',
-        recipes
+        recipes,
       )
       .subscribe();
   }
@@ -37,6 +38,9 @@ export class DataStorageService {
         }),
         tap(recipes => {
           this.recipeService.setRecipes(recipes);
+        }),
+        catchError((err: HttpErrorResponse) => {
+          return throwError(err.message);
         })
       );
   }

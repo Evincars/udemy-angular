@@ -1,7 +1,11 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { User } from './user.model';
 
 export interface AuthResponseData {
   idToken: string;
@@ -24,7 +28,7 @@ export class AuthService {
     'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
     this.apiKey;
 
-  public static errorMessages: { [key: string]: string } = {
+  public readonly errorMessages: { [key: string]: string } = {
     EMAIL_EXISTS: 'The email address is already in use by another account.',
     OPERATION_NOT_ALLOWED: 'Password sign-in is disabled for this project.',
     TOO_MANY_ATTEMPTS_TRY_LATER:
@@ -36,36 +40,52 @@ export class AuthService {
     USER_DISABLED: 'The user account has been disabled by an administrator.',
   };
 
+  userSub = new Subject<User>();
+
   constructor(private http: HttpClient) {}
 
   signIn(email: string, password: string) {
+    const { handleErr, handleAuth } = this.bindedHandlers();
     return this.http
       .post<AuthResponseData>(this.signInEndpoint, {
         email,
         password,
         returnSecureToken: true,
       })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(handleErr), tap(handleAuth));
   }
 
   signUp(email: string, password: string) {
+    const { handleErr, handleAuth } = this.bindedHandlers();
     return this.http
       .post<AuthResponseData>(this.signUpEndpoint, {
         email,
         password,
         returnSecureToken: true,
       })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(handleErr), tap(handleAuth));
+  }
+
+  private bindedHandlers() {
+    const handleErr = this.handleError.bind(this);
+    const handleAuth = this.handleAuthentication.bind(this);
+    return { handleErr, handleAuth };
   }
 
   private handleError(res: HttpErrorResponse) {
-    console.log(res);
-
     if (res.error || res.error.error) {
       // with this.errorMessages{...} we will access to this scope of the callback
       // hence it won't work, so static must be used
-      return throwError(AuthService.errorMessages[res.error.error.message]);
+      return throwError(this.errorMessages[res.error.error.message]);
     }
     return throwError('An unknown error occured.');
+  }
+
+  private handleAuthentication(res: AuthResponseData) {
+    const expirationDate = new Date(
+      new Date().getTime() + parseInt(res.expiresIn) * 1000
+    );
+    const user = new User(res.email, res.localId, res.idToken, expirationDate);
+    this.userSub.next(user);
   }
 }

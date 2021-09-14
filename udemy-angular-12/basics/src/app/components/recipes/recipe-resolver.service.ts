@@ -24,10 +24,10 @@ export class RecipeResolverService implements Resolve<Recipe[]> {
   ): Observable<Recipe[]> | Promise<Recipe[]> | Recipe[] {
     const recipes = this.recipeService.getRecipes();
 
-    if (recipes.length === 0) {
-      // subscribe() is not needed, Resolver from Angular will do it automatically
-      return this.dataStorageService.fetchRecipes();
-    }
+    // if (recipes.length === 0) {
+    //   // subscribe() is not needed, Resolver from Angular will do it automatically
+    //   return this.dataStorageService.fetchRecipes();
+    // }
     return recipes;
   }
 }

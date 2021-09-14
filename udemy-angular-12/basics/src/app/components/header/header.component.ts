@@ -1,23 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/shared/auth.service';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
-import { RecipeService } from 'src/app/shared/recipe.service';
-import { Recipe } from '../recipes/recipe.model';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent implements OnInit {
-
+export class HeaderComponent implements OnInit, OnDestroy {
   /*
   Before routing was used
 
   @Output() featureSelected = new EventEmitter<string>();*/
 
-  constructor(private dataStorageService: DataStorageService, private recipeService: RecipeService) { }
+  private userSub!: Subscription;
+  isUserLogged: boolean = false;
 
-  ngOnInit(): void { }
+  constructor(
+    private dataStorageService: DataStorageService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.authService.userSub.subscribe((res) => {
+      if (!res || !res.token) {
+        this.isUserLogged = false;
+        return;
+      }
+      this.isUserLogged = true;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
+  }
 
   /*
   Before routing was used
@@ -34,4 +51,7 @@ export class HeaderComponent implements OnInit {
     this.dataStorageService.fetchRecipes().subscribe();
   }
 
+  onLogout() {
+    
+  }
 }

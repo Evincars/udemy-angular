@@ -52,7 +52,7 @@ export class RecipeService {
 
   public setRecipes(recipes: Recipe[]) {
     this.recipes = recipes;
-    this.recipesChanged.next(this.recipes.slice());
+    this.emitChange();
   }
 
   public getRecipes() {
@@ -82,7 +82,7 @@ export class RecipeService {
   }
 
   public addRecipe(recipe: Recipe) {
-    const maxValue = _.maxBy(this.recipes, 'id')?.id;
+    const maxValue = _.maxBy(this.recipes, 'id')?.id || 0;
     if (maxValue !== undefined) {
       recipe.id = maxValue + 1;
       this.recipes.push(recipe);
