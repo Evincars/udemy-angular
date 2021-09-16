@@ -41,34 +41,29 @@ export class AuthService {
   // BehaviorSubject gives to subscribers imediate access to previous value
   // even when they didn't subscribe at the point when the value was emitted
   userSub = new BehaviorSubject<User | null>(null);
+  private autoSignOutTimer: any;
 
   constructor(private http: HttpClient, private router: Router) {}
 
   autoSignIn() {
     const storageData = localStorage.getItem('userData');
 
-    if (!storageData){
+    if (!storageData) {
       return;
     }
 
-    const storageUser: {
-      email: string;
-      id: string;
-      _token: string;
-      _tokenExpirationDate: Date;
-    } = JSON.parse(storageData);
-
-    const userData = new User(
-      storageUser.email,
-      storageUser.id,
-      storageUser._token,
-      storageUser._tokenExpirationDate
-    );
+    const userData = this.getStorageUserData(storageData);
     if (userData.token) {
       this.userSub.next(userData);
       return;
     }
     this.userSub.next(null);
+  }
+
+  autoSignOut(duration: number) {
+    this.autoSignOutTimer = setTimeout(() => {
+      this.signOut();
+    }, duration);
   }
 
   signIn(email: string, password: string) {
@@ -93,10 +88,14 @@ export class AuthService {
       .pipe(catchError(handleErr), tap(handleAuth));
   }
 
-  logout() {
+  signOut() {
     this.userSub.next(null);
     localStorage.removeItem('userData');
     this.router.navigate(['/auth']);
+    if (this.autoSignOutTimer) {
+      clearTimeout(this.autoSignOutTimer);
+      this.autoSignOutTimer = null;
+    }
   }
 
   private bindedHandlers() {
@@ -120,6 +119,26 @@ export class AuthService {
     );
     const user = new User(res.email, res.localId, res.idToken, expirationDate);
     this.userSub.next(user);
+    this.autoSignOut(parseInt(res.expiresIn) * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
+  }
+
+  private getStorageUserData(storageData: string) {
+    const storageUser: {
+      email: string;
+      id: string;
+      _token: string;
+      _tokenExpirationDate: Date;
+    } = JSON.parse(storageData);
+
+    const userData = new User(
+      storageUser.email,
+      storageUser.id,
+      storageUser._token,
+      storageUser._tokenExpirationDate
+    );
+    const duration = new Date(storageUser._tokenExpirationDate).getTime() - new Date().getTime();
+    this.autoSignOut(duration);
+    return userData;
   }
 }
