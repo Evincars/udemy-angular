@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { User } from './user.model';
 
 export interface AuthResponseData {
@@ -18,13 +19,12 @@ export interface AuthResponseData {
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly apiKey = 'AIzaSyD0svdSF9uPJnDaYaXoi8wL6H1Df-s_v58';
   private readonly signUpEndpoint =
     'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
-    this.apiKey;
+    environment.firebaseAPIKey;
   private readonly signInEndpoint =
     'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
-    this.apiKey;
+    environment.firebaseAPIKey;
 
   public readonly errorMessages: { [key: string]: string } = {
     EMAIL_EXISTS: 'The email address is already in use by another account.',
