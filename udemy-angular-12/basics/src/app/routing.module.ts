@@ -49,7 +49,9 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [],
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    initialNavigation: 'enabled'
+})],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

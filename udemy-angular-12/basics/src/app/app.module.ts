@@ -37,7 +37,7 @@ import { SpinnerComponent } from './shared/spinner/spinner.component'
     SpinnerComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     FormsModule,
     ReactiveFormsModule,
     RoutingModule,
