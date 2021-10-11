@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "angular-config-efda0"
+  },
+  "targets": {
+    "angular-config-efda0": {
+      "hosting": {
+        "angular-config": [
+          "angular-config-efda0"
+        ]
+      }
+    }
+  }
+}
