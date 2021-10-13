@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-md-5">
+    <!-- Before Services were used
+    <app-recipe-list (onRecipeWasSelected)="detailOfSelectedItem($event)"></app-recipe-list> -->
+
+    <app-recipe-list></app-recipe-list>
+  </div>
+  <div class="col-md-7">
+
+    <!-- Before routing was used
+
+    <app-recipe-detail
+      *ngIf="recipe; else showTestForNonSelectedItem"
+      [selectedRecipe]="recipe"
+    ></app-recipe-detail>
+    <ng-template #showTestForNonSelectedItem>Choose some recipe.</ng-template> -->
+    <router-outlet></router-outlet>
+  </div>
+</div>
