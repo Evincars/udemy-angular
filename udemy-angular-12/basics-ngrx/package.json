@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/platform-server": "~12.2.0",
     "@angular/router": "~12.2.0",
+    "@ngrx/store": "^12.4.0",
     "@nguniversal/express-engine": "^12.1.0",
     "@types/lodash": "^4.14.172",
     "bootstrap": "^3.4.1",

@@ -18,6 +18,8 @@ import { RecipeStartComponent } from './components/recipes/recipe-start/recipe-s
 import { HttpClientModule } from '@angular/common/http';
 import { AuthComponent } from './components/auth/auth.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component'
+import { StoreModule } from '@ngrx/store';
+import { shoppingListReducer } from './components/shopping-list/store/shopping-list.reducer';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,10 @@ import { SpinnerComponent } from './shared/spinner/spinner.component'
     FormsModule,
     ReactiveFormsModule,
     RoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({
+      shoppingList: shoppingListReducer
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
