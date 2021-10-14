@@ -1,7 +1,7 @@
 import { Ingredient } from 'src/app/shared/ingredient.model';
 import * as ShoppingListActions from './shopping-list.actions';
 
-interface State {
+export interface State {
   ingredients?: Ingredient[];
 }
 
@@ -17,6 +17,7 @@ export function shoppingListReducer(
     case ShoppingListActions.ADD_INGREDIENT:
       // never touch the existing state, it MUST BE inmutable
       // it's fine to return a new object and preserve the old one
+
       return {
         ...state, // it's a good practise to ALWAYS copy the old state
         // ingredients: [
