@@ -71,7 +71,8 @@ import { LoadingComponent } from './loading/loading.component';
     MatSelectModule,
     MatDatepickerModule,
     MatMomentDateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [
   ],
